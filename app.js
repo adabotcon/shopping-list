@@ -35,7 +35,7 @@ function renderItem(item, index, listElement, dataListID){
 	listFormat.find('.shopping-item').text(item.displayName);
 
 	if(item.checkedOff){
-		listFormat.find(uncheckedElement).addClass('shopping-item_checked');
+		listFormat.find('.shopping-item').addClass('shopping-item_checked');
 	}
 
 	listFormat.find('.shopping-item-toggle');
@@ -61,15 +61,9 @@ function getListFormat(){
 }
 
 function startCheckItem(dataListID, listElement, toggleButtonID, state){
-	listElement.on('click', toggleButtonID, function(event){
-
-		console.log($(event.currentTarget.closest('li')));
-		console.log(dataListID);
-		debugger;
+	listElement.on('click', 'li', function(event){
 
 		var correspondingID = $(event.currentTarget.closest('li')).attr(dataListID);
-		console.log(correspondingID);
-		debugger;
 		var currentItem = getItem(state, correspondingID);
 
 		changeItem(state, correspondingID, {
@@ -80,8 +74,8 @@ function startCheckItem(dataListID, listElement, toggleButtonID, state){
 	})
 }
 
-function startDeleteItem(dataListID, listElement, state){
-	$('.shopping-item-delete').click(function(event){
+function startDeleteItem(dataListID, listElement, deleteButtonID, state){
+	$(deleteButtonID).click(function(event){
 		var correspondingID = $(event.currentTarget.closest('li')).attr(dataListID);
 
 		deleteItem(state, correspondingID);
@@ -110,8 +104,9 @@ $(function(){
 	var newItemID = '#shopping-list-entry';
 
 	var toggleButtonID = '.shopping-item-toggle';
+	var deleteButtonID = '.shopping-item-delete';
 
 	startAddingItems(formElement, entryElement, dataListID, listElement, newItemID, state);
-	startDeleteItem(dataListID, listElement, toggleButtonID, state);
-	startCheckItem(dataListID, listElement, state);
+	startDeleteItem(dataListID, listElement, deleteButtonID, state);
+	startCheckItem(dataListID, listElement, toggleButtonID, state);
 })
